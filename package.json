@@ -1,0 +1,34 @@
+{
+  "name": "ts-lsp-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server that proxies the TypeScript LSP via the tsgo native compiler.",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/cli.ts",
+    "start": "bun run src/cli.ts",
+    "compile": "bun build src/cli.ts --compile --outfile dist/ts-lsp-mcp",
+    "bundle": "bun build src/cli.ts --target bun --outfile dist/cli.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.19.1",
+    "commander": "^14.0.1",
+    "vscode-jsonrpc": "^8.2.1",
+    "vscode-languageserver-protocol": "^3.17.5",
+    "vscode-uri": "^3.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "@typescript/native-preview": "^7.0.0-dev.20251007.1",
+    "typescript": "^5.9.3"
+  }
+}
