@@ -79,7 +79,7 @@ if [[ $target == linux-* && -f /etc/alpine-release ]]; then
     target="$target-musl"
 fi
 
-TS_LSP_MCP_GITHUB_OWNER=${TS_LSP_MCP_GITHUB_OWNER:-"cryogenic"}
+TS_LSP_MCP_GITHUB_OWNER=${TS_LSP_MCP_GITHUB_OWNER:-"CryogenicPlanet"}
 TS_LSP_MCP_GITHUB_REPO=${TS_LSP_MCP_GITHUB_REPO:-"ts-lsp-mcp"}
 TS_LSP_MCP_GITHUB_URL=${TS_LSP_MCP_GITHUB_URL:-"https://github.com"}
 repo_url="$TS_LSP_MCP_GITHUB_URL/$TS_LSP_MCP_GITHUB_OWNER/$TS_LSP_MCP_GITHUB_REPO"
@@ -88,10 +88,10 @@ exe_name=ts-lsp-mcp
 
 fetch_latest_tag() {
     curl --fail --silent \
-        "https://api.github.com/repos/$TS_LSP_MCP_GITHUB_OWNER/$TS_LSP_MCP_GITHUB_REPO/releases/latest" \
-        | grep -E '"tag_name"' \
-        | head -n1 \
-        | sed -E 's/.*"tag_name"\s*:\s*"([^\"]+)".*/\1/'
+        "https://api.github.com/repos/$TS_LSP_MCP_GITHUB_OWNER/$TS_LSP_MCP_GITHUB_REPO/releases/latest" |
+        grep -E '"tag_name"' |
+        head -n1 |
+        sed -E 's/.*"tag_name"\s*:\s*"([^\"]+)".*/\1/'
 }
 
 if [[ $# -eq 0 ]]; then
