@@ -60,7 +60,7 @@ Create or update `~/.cursor/mcp.json`:
     "command": [
       "ts-lsp-mcp",
       "--workspace",
-      "${workspaceFolder}"
+      "$(pwd)"
     ]
   }
 }
@@ -80,7 +80,7 @@ Create `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
       "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
-        "${workspaceFolder}"
+        "$(pwd)"
       ]
     }
   }
@@ -100,7 +100,7 @@ Add a server entry via `/mcp`:
     "command": "ts-lsp-mcp",
     "args": [
       "--workspace",
-      "${workspaceFolder}"
+      "$(pwd)"
     ]
   }
 }
@@ -120,7 +120,7 @@ Edit `~/.config/gemini/mcp.json` (or equivalent):
       "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
-        "${workspaceFolder}"
+        "$(pwd)"
       ]
     }
   }
@@ -141,7 +141,7 @@ Add to `~/.continue/config.json`:
       "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
-        "${workspaceFolder}"
+        "$(pwd)"
       ]
     }
   }
@@ -162,7 +162,7 @@ Add to your VS Code settings (`settings.json`):
       "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
-        "${workspaceFolder}"
+        "$(pwd)"
       ]
     }
   }
@@ -179,7 +179,7 @@ Add to `~/.config/zed/mcp.toml`:
 ```toml
 [servers.ts-lsp-mcp]
 command = "ts-lsp-mcp"
-args = ["--workspace", "${workspaceFolder}"]
+args = ["--workspace", "$(pwd)"]
 ```
 
 </details>
