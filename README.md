@@ -37,25 +37,28 @@ bun build src/cli.ts --compile --outfile dist/ts-lsp-mcp
 
 The CLI defaults `--workspace` to the current directory. Pass an explicit path when you want to inspect a different project.
 
-After installation, run the server via:
+After installation, you can run the server directly:
 
 ```bash
-ts-lsp-mcp --workspace /absolute/path/to/your/project
+ts-lsp-mcp --workspace "$(pwd)"
 ```
+
+The `--workspace` flag is optional — if omitted, the CLI defaults to the current working directory.
 
 ### MCP client integration
 
-Below are example configurations for common MCP-aware clients. Adjust paths to wherever you installed/built `ts-lsp-mcp`.
+If `ts-lsp-mcp` is on your `PATH`, use `"command": ["ts-lsp-mcp", …]` in the snippets below. Otherwise, replace it with the absolute path printed by the installer.
 
-#### Cursor
+<details>
+<summary><strong>Cursor</strong></summary>
 
-Save the following to `~/.cursor/mcp.json` (or add to your existing file):
+Create or update `~/.cursor/mcp.json`:
 
 ```json
 {
   "ts-lsp-mcp": {
     "command": [
-      "/Users/you/.ts-lsp-mcp/ts-lsp-mcp",
+      "ts-lsp-mcp",
       "--workspace",
       "${workspaceFolder}"
     ]
@@ -63,15 +66,18 @@ Save the following to `~/.cursor/mcp.json` (or add to your existing file):
 }
 ```
 
-#### Claude Desktop
+</details>
 
-Create `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%/Claude/claude_desktop_config.json` (Windows Subsystem for Linux) with:
+<details>
+<summary><strong>Claude Code (Claude Desktop)</strong></summary>
+
+Create `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%/Claude/claude_desktop_config.json` (Windows/WSL) with:
 
 ```json
 {
   "mcpServers": {
     "ts-lsp-mcp": {
-      "command": "/Users/you/.ts-lsp-mcp/ts-lsp-mcp",
+      "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
         "${workspaceFolder}"
@@ -81,15 +87,37 @@ Create `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 }
 ```
 
-#### Continue (VS Code / JetBrains)
+</details>
 
-Add to your `~/.continue/config.json`:
+<details>
+<summary><strong>OpenAI Codex CLI</strong></summary>
+
+Add a server entry via `/mcp`:
 
 ```json
 {
-  "mcpServers": {
+  "ts": {
+    "command": "ts-lsp-mcp",
+    "args": [
+      "--workspace",
+      "${workspaceFolder}"
+    ]
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Google Gemini CLI</strong></summary>
+
+Edit `~/.config/gemini/mcp.json` (or equivalent):
+
+```json
+{
+  "servers": {
     "ts-lsp-mcp": {
-      "command": "/Users/you/.ts-lsp-mcp/ts-lsp-mcp",
+      "command": "ts-lsp-mcp",
       "args": [
         "--workspace",
         "${workspaceFolder}"
@@ -99,7 +127,64 @@ Add to your `~/.continue/config.json`:
 }
 ```
 
-Each client replaces `${workspaceFolder}` with the project you open, so a single configuration works across repositories.
+</details>
+
+<details>
+<summary><strong>Continue (VS Code / JetBrains)</strong></summary>
+
+Add to `~/.continue/config.json`:
+
+```json
+{
+  "mcpServers": {
+    "ts-lsp-mcp": {
+      "command": "ts-lsp-mcp",
+      "args": [
+        "--workspace",
+        "${workspaceFolder}"
+      ]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><strong>VS Code (Model Context Protocol Extension)</strong></summary>
+
+Add to your VS Code settings (`settings.json`):
+
+```json
+{
+  "modelContextProtocol.servers": {
+    "ts-lsp-mcp": {
+      "command": "ts-lsp-mcp",
+      "args": [
+        "--workspace",
+        "${workspaceFolder}"
+      ]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary><strong>Zed</strong></summary>
+
+Add to `~/.config/zed/mcp.toml`:
+
+```toml
+[servers.ts-lsp-mcp]
+command = "ts-lsp-mcp"
+args = ["--workspace", "${workspaceFolder}"]
+```
+
+</details>
+
+Each client substitutes `${workspaceFolder}` (or its equivalent) with the project you open, so the same configuration works across repositories.
 
 ### CLI Options
 
