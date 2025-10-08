@@ -20,7 +20,7 @@ This project provides a Model Context Protocol (MCP) server that lets models cal
 ### Option 1: One-line install script
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/cryogenic/ts-lsp-mcp/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CryogenicPlanet/ts-lsp-mcp/main/scripts/install.sh | bash
 ```
 
 The script downloads the latest nightly build, installs it to `~/.ts-lsp-mcp/ts-lsp-mcp`, and prints a short snippet you can add to your shell profile to expose the binary on your `PATH`. If you have not already installed the TypeScript native preview, run `npm install -g @typescript/native-preview` (or the Bun equivalent) after the script completes.
