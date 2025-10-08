@@ -1,0 +1,75 @@
+name: Build Release Artifacts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.1"
+      - run: bun install --frozen-lockfile
+      - run: bun test
+
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
+            bun-target: bun-darwin-arm64
+            archive: darwin-arm64
+          - runner: macos-latest
+            bun-target: bun-darwin-x64
+            archive: darwin-x64
+          - runner: ubuntu-latest
+            bun-target: bun-linux-x64
+            archive: linux-x64
+          - runner: ubuntu-latest
+            bun-target: bun-linux-aarch64
+            archive: linux-aarch64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.1"
+      - run: bun install --frozen-lockfile
+      - name: Compile binary
+        run: |
+          bun build src/cli.ts --compile --target ${{ matrix.bun-target }} --outfile ts-lsp-mcp
+          chmod +x ts-lsp-mcp
+      - name: Package archive
+        run: |
+          zip ts-lsp-mcp-${{ matrix.archive }}.zip ts-lsp-mcp
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ts-lsp-mcp-${{ matrix.archive }}
+          path: ts-lsp-mcp-${{ matrix.archive }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Collect archives
+        run: |
+          find artifacts -name '*.zip' -exec mv {} . \;
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Nightly build
+          files: |
+            *.zip
