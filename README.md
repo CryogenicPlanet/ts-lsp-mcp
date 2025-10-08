@@ -43,7 +43,7 @@ After installation, you can run the server directly:
 ts-lsp-mcp --workspace "$(pwd)"
 ```
 
-The `--workspace` flag is optional — if omitted, the CLI defaults to the current working directory.
+The `--workspace` flag defaults to the current working directory when omitted, so `ts-lsp-mcp` alone is usually enough.
 
 ### MCP client integration
 
